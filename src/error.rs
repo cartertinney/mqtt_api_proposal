@@ -10,6 +10,8 @@
 
 // DISCUSS: I prefer this because it keeps the error surface simpler, and has clearer semantics that don't step
 // on the toes of the CompletionError.
+// DISCUSS: In a real implementation, this (and all other errors) would be a struct, not an enum. Should it also contain T where T is the
+// packet type, so you get back the packet data on failure? e.g. ClientError<Publish>? where error.packet() -> Publish?
 #[derive(Debug)]
 pub enum ClientError {
     DetachedClient,
