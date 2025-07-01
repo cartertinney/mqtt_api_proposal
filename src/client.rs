@@ -12,9 +12,17 @@ use crate::topic::{TopicName, TopicFilter};
 /// Alternatively, maybe we break up connect/disconnect/auth into a separate fourth component?
 
 /// Creates the three components needed to run the MQTT client
-pub fn new_client() -> (Client, EventLoop, Receiver) {
+pub fn new_client(options: ClientOptions) -> (Client, EventLoop, Receiver) {
     unimplemented!()
 }
+
+// NOTE: Use a builder pattern
+pub struct ClientOptions {
+    pub queue_size: usize,
+    // Any other options can be added here, but there really ought not be many.
+}
+
+// DISCUSS: Are there any other options anyway? Should we just forgo the struct and have a function that takes a queue size?
 
 
 /// Sends outgoing data.

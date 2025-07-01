@@ -1,10 +1,15 @@
-use mqtt::client::{new_client, Client, EventLoop, Receiver, Event};
+use mqtt::client::{new_client, Client, ClientOptions, EventLoop, Receiver, Event};
 use mqtt::packet::{QoS, ConnectProperties, PublishProperties, SubscribeProperties};
 use mqtt::topic::{TopicFilter, TopicName};
 
 #[tokio::main]
 async fn main() {
-    let (client, event_loop, receiver) = new_client();
+
+    // This would be a builder pattern in a real implementation.
+    let options = ClientOptions {
+        queue_size: 10,
+    };
+    let (client, event_loop, receiver) = new_client(options);
 
     tokio::select! {
         _ = connection_runner(event_loop) => {
