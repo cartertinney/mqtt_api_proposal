@@ -6,16 +6,20 @@
 //
 // I would also say that, it's fairly impractical to expect the application to simply know the max size, given that, we only find it
 // out in the CONNACK, and so it requires the user to set up state for the application to track it, which is... odd
+//
+// On the other hand, you can hardly validate it before receiving the CONNACK, so it isn't well suited to a ClientError, it's probably
+// more of a CompletionError thing? If so, is the only Client Error really that it became detached?
 
 
 // DISCUSS: I prefer this because it keeps the error surface simpler, and has clearer semantics that don't step
 // on the toes of the CompletionError.
+// 
 // DISCUSS: In a real implementation, this (and all other errors) would be a struct, not an enum. Should it also contain T where T is the
 // packet type, so you get back the packet data on failure? e.g. ClientError<Publish>? where error.packet() -> Publish?
 #[derive(Debug)]
 pub enum ClientError {
     DetachedClient,
-    TooLarge,
+    TooLarge,   // This could happen even without payload due to large user properties, of, say, a subscribe
 }
 
 /// Indicates the failure of an MQTT operation
